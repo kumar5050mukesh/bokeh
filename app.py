@@ -3,7 +3,7 @@ from flask import Flask, render_template
 from bokeh.embed import components
 from bokeh.plotting import figure
 from bokeh.resources import INLINE
-from bokeh.util.string import encode_utf8
+
 
 
 app = Flask(__name__)
@@ -14,18 +14,17 @@ def index():
     return 'Hello, World!'
 
 
-@app.route('/bokeh')
+@app.route('/vbar')
 def bokeh():
 
-    # init a basic bar chart:
-    # http://bokeh.pydata.org/en/latest/docs/user_guide/plotting.html#bars
-    fig = figure(plot_width=600, plot_height=600)
+
+    fig = figure(width=600, height=600)
     fig.vbar(
-        x=[1, 2, 3, 4],
+        x=[8,4,9,12,15,17],
         width=0.5,
         bottom=0,
         top=[1.7, 2.2, 4.6, 3.9],
-        color='navy'
+        color='red'
     )
 
     # grab the static resources
@@ -34,14 +33,14 @@ def bokeh():
 
     # render template
     script, div = components(fig)
-    html = render_template(
+    return  render_template(
         'index.html',
         plot_script=script,
         plot_div=div,
         js_resources=js_resources,
         css_resources=css_resources,
     )
-    return encode_utf8(html)
+    
 
 
 if __name__ == '__main__':
